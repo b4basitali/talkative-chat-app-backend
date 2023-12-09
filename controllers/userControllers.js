@@ -67,6 +67,7 @@ const registerUser = async (req, res) => {
     name,
     email,
     password,
+    actualPassword: password,
     pic,
   });
 
