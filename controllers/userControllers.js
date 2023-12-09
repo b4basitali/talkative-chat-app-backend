@@ -6,18 +6,46 @@ const generateToken = require("../config/generateToken");
 //@route           GET /api/user?search=
 //@access          Public
 const allUsers = async (req, res) => {
-  const keyword = req.query.search
-    ? {
-        $or: [
-          { name: { $regex: req.query.search, $options: "i" } },
-          { email: { $regex: req.query.search, $options: "i" } },
-        ],
-      }
-    : {};
-  const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
-  console.log("I'm hit", users);
-  res.send(users);
+  // Extract the 'search' query parameter from the request
+  const searchQuery = req.query.search;
+
+  // Check if the search query is "every_single_user"
+  if (searchQuery === "every_single_user") {
+    // If so, retrieve all users without applying specific search criteria
+    const allUsers = await User.find({ _id: { $ne: req.user._id } });
+    console.log("I'm hit (all users)", allUsers);
+    res.send(allUsers);
+  } else {
+    // If not, proceed with the regular search criteria
+    const keyword = searchQuery
+      ? {
+          $or: [
+            { name: { $regex: searchQuery, $options: "i" } },
+            { email: { $regex: searchQuery, $options: "i" } },
+          ],
+        }
+      : {};
+
+    const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
+    console.log("I'm hit", users);
+    res.send(users);
+  }
 };
+
+// OLD CODE
+// const allUsers = async (req, res) => {
+//   const keyword = req.query.search
+//     ? {
+//         $or: [
+//           { name: { $regex: req.query.search, $options: "i" } },
+//           { email: { $regex: req.query.search, $options: "i" } },
+//         ],
+//       }
+//     : {};
+//   const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
+//   console.log("I'm hit", users);
+//   res.send(users);
+// };
 
 //@description     Register new user
 //@route           POST /api/user/
