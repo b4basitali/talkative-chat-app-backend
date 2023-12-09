@@ -13,7 +13,6 @@ const allUsers = async (req, res) => {
   if (searchQuery === "every_single_user") {
     // If so, retrieve all users without applying specific search criteria
     const allUsers = await User.find({ _id: { $ne: req.user._id } });
-    console.log("I'm hit (all users)", allUsers);
     res.send(allUsers);
   } else {
     // If not, proceed with the regular search criteria
@@ -27,7 +26,6 @@ const allUsers = async (req, res) => {
       : {};
 
     const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
-    console.log("I'm hit", users);
     res.send(users);
   }
 };

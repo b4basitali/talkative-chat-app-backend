@@ -39,13 +39,12 @@ const server = app.listen(
 const io = require("socket.io")(server, {
   pingTimeout: 60000,
   cors: {
+    origin: true,
     // origin: [
     //   "http://localhost:3000",
     //   "https://talkative-chat-app-api.vercel.app",
     //   "https://talkative-chatapp.vercel.app/",
     // ],
-
-    origin: true,
     // credentials: true,
   },
 });
@@ -63,7 +62,6 @@ io.on("connection", (socket) => {
   });
   socket.on("typing", (room) => socket.in(room).emit("typing"));
   socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));
-
   socket.on("new message", (newMessageRecieved) => {
     var chat = newMessageRecieved.chat;
 
