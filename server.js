@@ -42,6 +42,7 @@ const io = require("socket.io")(server, {
     origin: [
       "http://localhost:3000",
       "https://talkative-chat-app-api.vercel.app",
+      "https://talkative-chatapp.vercel.app/",
     ],
     // credentials: true,
   },
