@@ -9,6 +9,7 @@ const cors = require("cors");
 
 dotenv.config();
 connectDB();
+
 const app = express();
 
 app.use(express.json()); // to accept json data
@@ -74,3 +75,5 @@ io.on("connection", (socket) => {
     socket.leave(userData._id);
   });
 });
+
+export default app;

@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "server": "nodemon server.js",
-    "build": "npm install --legacy-peer-deps"
+    "build": "npm install --legacy-peer-deps",
+    "vercel-build": "echo hello-vercel-build-command"
   },
   "keywords": [
     "mern",
