@@ -31,7 +31,7 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT;
 
-const server = http.listen(
+const server = app.listen(
   PORT,
   console.log(`Server running on PORT ${PORT}...`.yellow.bold)
 );
