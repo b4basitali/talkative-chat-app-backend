@@ -7,6 +7,7 @@ const messageRoutes = require("./routes/messageRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const cors = require("cors");
 const { Server } = require("socket.io");
+import { createServer } from "http";
 
 dotenv.config();
 connectDB();
@@ -15,7 +16,10 @@ const app = express();
 
 // Enable CORS for all routes
 app.use(cors());
-const io = new Server(server);
+
+const socket_server = createServer(app); // Create the server
+
+const io = new Server(socket_server); // Attach Socket.IO to the server
 
 app.use(express.json()); // to accept json data
 
