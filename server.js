@@ -7,10 +7,13 @@ const messageRoutes = require("./routes/messageRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const cors = require("cors");
 
+const http = require("http"); // Add this line
+
 dotenv.config();
 connectDB();
 
 const app = express();
+const server = http.createServer(app); // Create an HTTP server
 
 // Enable CORS for all routes
 app.use(cors());
@@ -30,11 +33,6 @@ app.use(notFound);
 app.use(errorHandler);
 
 const PORT = process.env.PORT;
-
-const server = app.listen(
-  PORT,
-  console.log(`Server running on PORT ${PORT}...`.yellow.bold)
-);
 
 const io = require("socket.io")(server, {
   pingTimeout: 60000,
@@ -74,5 +72,10 @@ io.on("connection", (socket) => {
     socket.leave(userData._id);
   });
 });
+
+server.listen(
+  PORT,
+  console.log(`Server running on PORT ${PORT}...`.yellow.bold)
+);
 
 module.exports = app;
