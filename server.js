@@ -6,6 +6,7 @@ const chatRoutes = require("./routes/chatRoutes");
 const messageRoutes = require("./routes/messageRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const cors = require("cors");
+const { Server } = require("socket.io");
 
 dotenv.config();
 connectDB();
@@ -14,6 +15,7 @@ const app = express();
 
 // Enable CORS for all routes
 app.use(cors());
+const io = new Server(server);
 
 app.use(express.json()); // to accept json data
 
@@ -36,13 +38,13 @@ const server = app.listen(
   console.log(`Server running on PORT ${PORT}...`.yellow.bold)
 );
 
-const io = require("socket.io")(server, {
-  pingTimeout: 60000,
-  cors: {
-    origin: "https://talkative-chatapp.vercel.app",
-    // credentials: true,
-  },
-});
+// const io = require("socket.io")(server, {
+//   pingTimeout: 60000,
+//   cors: {
+//     origin: "https://talkative-chatapp.vercel.app",
+//     // credentials: true,
+//   },
+// });
 
 io.on("connection", (socket) => {
   console.log("Connected to socket.io");
